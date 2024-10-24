@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Post } from 'src/posts/posts.model';
 import { Role } from 'src/roles/roles.model';
 import { UserRoles } from 'src/roles/user-roles.model';
 
@@ -11,14 +19,25 @@ interface UserCreationAttrs {
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: '1', description: 'Identificator' })
-  @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
+  @Column({
+    type: DataType.INTEGER,
+    unique: true,
+    autoIncrement: true,
+    primaryKey: true,
+  })
   id: number;
 
-  @ApiProperty({ example: 'someone@gmail.com', description: 'An email of user' })
+  @ApiProperty({
+    example: 'someone@gmail.com',
+    description: 'An email of user',
+  })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string;
 
-  @ApiProperty({ example: 'newPasword123#', description: 'Password for authorization' })
+  @ApiProperty({
+    example: 'newPasword123#',
+    description: 'Password for authorization',
+  })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
@@ -32,4 +51,7 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];
+
+  @HasMany(() => Post)
+  posts: Post[];
 }

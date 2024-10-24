@@ -1,8 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './users.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -47,10 +43,7 @@ export class UsersService {
       await user.$add('role', role.id);
       return dto;
     }
-    throw new HttpException(
-      'User or role not found',
-      HttpStatus.NOT_FOUND,
-    );
+    throw new HttpException('User or role not found', HttpStatus.NOT_FOUND);
   }
 
   async ban(dto: BanUserDto) {
